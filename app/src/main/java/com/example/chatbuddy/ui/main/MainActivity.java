@@ -1,35 +1,40 @@
-package com.example.chatbuddy;
+package com.example.chatbuddy.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.ActivityMainBinding;
+import com.example.chatbuddy.ui.chat.ChatFragment;
 import com.example.chatbuddy.ui.login.LoginFragment;
 import com.example.chatbuddy.ui.register.RegisterFragment;
+import com.example.chatbuddy.ui.splash.SplashFragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener {
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener {
 
     private ActivityMainBinding binding;
-    private Fragment lastFragment;
+    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        showLoginScreen();
+        presenter = new MainActivityPresenter(this);
+        presenter.load();
     }
 
     private void openScreen(Fragment fragment) {
-        lastFragment = fragment;
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, fragment)
+                .commit();
+    }
+
+    public void showSplashScreen() {
+        openScreen(new SplashFragment());
     }
 
     public void showLoginScreen(){
@@ -41,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
     }
 
     public void showChatScreen(){
-
+        openScreen(new ChatFragment());
     }
 
     public void showChatListFragment(){

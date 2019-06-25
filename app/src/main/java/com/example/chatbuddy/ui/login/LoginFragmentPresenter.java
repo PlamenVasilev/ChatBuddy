@@ -1,7 +1,5 @@
 package com.example.chatbuddy.ui.login;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,17 +21,17 @@ class LoginFragmentPresenter {
     }
 
     void onSubmit(String email, String password) {
+        fragment.showLoader();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Objects.requireNonNull(fragment.getActivity()), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        fragment.hideLoader();
+
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //updateUI(user);
                             fragment.loginSuccessfull(user);
                         } else {
-
                             fragment.loginFailed(task.getException());
                         }
                     }

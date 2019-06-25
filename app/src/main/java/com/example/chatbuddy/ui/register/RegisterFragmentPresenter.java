@@ -21,16 +21,17 @@ class RegisterFragmentPresenter {
     }
 
     void onSubmit(String email, String password) {
+        fragment.showLoader();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Objects.requireNonNull(fragment.getActivity()), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        fragment.hideLoader();
+
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-
                             fragment.registerSuccessfull(user);
                         } else {
-
                             fragment.registerFailed(task.getException());
                         }
                     }

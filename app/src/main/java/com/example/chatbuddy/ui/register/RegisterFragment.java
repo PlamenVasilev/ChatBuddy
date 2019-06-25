@@ -76,6 +76,13 @@ public class RegisterFragment extends Fragment {
                 .show();
     }
 
+    void showLoader(){
+        binding.loader.setVisibility(View.VISIBLE);
+    }
+
+    void hideLoader(){
+        binding.loader.setVisibility(View.GONE);
+    }
 
     public interface OnRegisterFragmentListener {
         void showLoginScreen();

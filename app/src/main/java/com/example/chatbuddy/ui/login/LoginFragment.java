@@ -77,6 +77,14 @@ public class LoginFragment extends Fragment {
                 .show();
     }
 
+    void showLoader(){
+        binding.loader.setVisibility(View.VISIBLE);
+    }
+
+    void hideLoader(){
+        binding.loader.setVisibility(View.GONE);
+    }
+
     public interface OnLoginFragmentListener {
         void showRegisterScreen();
         void showChatScreen();
