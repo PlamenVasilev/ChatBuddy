@@ -1,0 +1,67 @@
+package com.example.chatbuddy.ui.login;
+
+import android.content.Context;
+import android.os.Bundle;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.chatbuddy.R;
+import com.example.chatbuddy.databinding.FragmentLoginBinding;
+
+public class LoginFragment extends Fragment {
+
+    private OnLoginFragmentListener mListener;
+    private LoginFragmentPresenter presenter;
+    private FragmentLoginBinding binding;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter = new LoginFragmentPresenter(this);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
+
+        binding.submit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                presenter.onSubmit();
+            }
+        });
+
+        binding.register.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mListener.showRegisterScreen();
+            }
+        });
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnLoginFragmentListener) {
+            mListener = (OnLoginFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnLoginFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnLoginFragmentListener {
+        void showRegisterScreen();
+    }
+}
