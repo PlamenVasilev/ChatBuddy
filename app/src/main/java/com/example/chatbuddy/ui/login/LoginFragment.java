@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.FragmentLoginBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
@@ -32,7 +36,7 @@ public class LoginFragment extends Fragment {
 
         binding.submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                presenter.onSubmit();
+                presenter.onSubmit(binding.loginEmail.getText().toString(), binding.loginPassword.getText().toString());
             }
         });
 
@@ -61,7 +65,20 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
+    void loginSuccessfull(FirebaseUser user) {
+        Snackbar.make(Objects.requireNonNull(this.getView()), "Login successfull!", Snackbar.LENGTH_SHORT)
+                .show();
+
+        mListener.showChatScreen();
+    }
+
+    void loginFailed(Exception exception) {
+        Snackbar.make(Objects.requireNonNull(this.getView()), "Login failed: "+exception.getMessage(), Snackbar.LENGTH_LONG)
+                .show();
+    }
+
     public interface OnLoginFragmentListener {
         void showRegisterScreen();
+        void showChatScreen();
     }
 }

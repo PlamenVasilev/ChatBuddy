@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "66552264625",
+    "firebase_url": "https://chatbuddy-1da4f.firebaseio.com",
+    "project_id": "chatbuddy-1da4f",
+    "storage_bucket": "chatbuddy-1da4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66552264625:android:e0a819b711198c75",
+        "android_client_info": {
+          "package_name": "com.example.chatbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66552264625-om1imcvdrstbdr63in3c944n4serfhpg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatbuddy",
+            "certificate_hash": "7fd93df7f71c58567445edf3f498b6aae9ecf1f0"
+          }
+        },
+        {
+          "client_id": "66552264625-rosm5a2i0r7j7tjnjerpqa72ue2ji8qn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtJgq4ISwaVrWEE0DswI8OigoAG-WWBRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66552264625-rosm5a2i0r7j7tjnjerpqa72ue2ji8qn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

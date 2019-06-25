@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.FragmentRegisterBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class RegisterFragment extends Fragment {
 
@@ -39,7 +42,7 @@ public class RegisterFragment extends Fragment {
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.onSubmit();
+                presenter.onSubmit(binding.registerEmail.getText().toString(), binding.registerPassword.getText().toString());
             }
         });
         return binding.getRoot();
@@ -61,8 +64,21 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
+    void registerSuccessfull(FirebaseUser user) {
+        Snackbar.make(Objects.requireNonNull(this.getView()), "Register successfull!", Snackbar.LENGTH_SHORT)
+                .show();
+
+        mListener.showChatScreen();
+    }
+
+    void registerFailed(Exception exception) {
+        Snackbar.make(Objects.requireNonNull(this.getView()), "Register failed: "+exception.getMessage(), Snackbar.LENGTH_LONG)
+                .show();
+    }
+
 
     public interface OnRegisterFragmentListener {
         void showLoginScreen();
+        void showChatScreen();
     }
 }
