@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_logout_title">Logout</string>
+    <string name="confirm_logout">Are you sure that you want to logout?</string>
+    <string name="confirm_logout_ok">Yes</string>
+    <string name="confirm_logout_cancel">Cancel</string>
 </resources>

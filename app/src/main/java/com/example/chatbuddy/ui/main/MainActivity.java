@@ -5,6 +5,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
 
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.ActivityMainBinding;
@@ -27,10 +29,25 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         presenter.load();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void openScreen(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame, fragment)
                 .commit();
+    }
+
+    public void showLoader(){
+        binding.mainProgress.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoader(){
+        binding.mainProgress.setVisibility(View.GONE);
     }
 
     public void showSplashScreen() {
