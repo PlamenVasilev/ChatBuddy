@@ -2,7 +2,10 @@ package com.example.chatbuddy.ui.register;
 
 import androidx.annotation.NonNull;
 
+import com.example.chatbuddy.data.db.remote.FbDatabase;
+import com.example.chatbuddy.data.db.remote.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +23,7 @@ class RegisterFragmentPresenter {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    void onSubmit(String email, String password) {
+    void onSubmit(String email, String password, final String nickname) {
         fragment.showLoader();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Objects.requireNonNull(fragment.getActivity()), new OnCompleteListener<AuthResult>() {
@@ -29,8 +32,14 @@ class RegisterFragmentPresenter {
                         fragment.hideLoader();
 
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            fragment.registerSuccessfull(user);
+                            final FirebaseUser authUser = mAuth.getCurrentUser();
+                            UserModel userModel = new UserModel(Objects.requireNonNull(authUser).getUid(), authUser.getEmail(), nickname);
+                            FbDatabase.addUser(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    fragment.registerSuccessfull();
+                                }
+                            });
                         } else {
                             fragment.registerFailed(task.getException());
                         }

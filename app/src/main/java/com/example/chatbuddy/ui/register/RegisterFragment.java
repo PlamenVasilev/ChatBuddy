@@ -3,6 +3,7 @@ package com.example.chatbuddy.ui.register;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -30,7 +31,7 @@ public class RegisterFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false);
 
         binding.login.setOnClickListener(new View.OnClickListener() {
@@ -42,14 +43,18 @@ public class RegisterFragment extends Fragment {
         binding.submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.onSubmit(binding.registerEmail.getText().toString(), binding.registerPassword.getText().toString());
+                presenter.onSubmit(
+                        binding.registerEmail.getText().toString(),
+                        binding.registerPassword.getText().toString(),
+                        binding.registerNickname.getText().toString()
+                );
             }
         });
         return binding.getRoot();
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof OnRegisterFragmentListener) {
             mListener = (OnRegisterFragmentListener) context;
@@ -64,7 +69,7 @@ public class RegisterFragment extends Fragment {
         mListener = null;
     }
 
-    void registerSuccessfull(FirebaseUser user) {
+    void registerSuccessfull() {
         Snackbar.make(Objects.requireNonNull(this.getView()), "Register successfull!", Snackbar.LENGTH_SHORT)
                 .show();
 
