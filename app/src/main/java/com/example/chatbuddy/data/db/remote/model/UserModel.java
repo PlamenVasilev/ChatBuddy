@@ -5,6 +5,10 @@ public class UserModel {
     private String email;
     private String nickname;
 
+    public UserModel() {
+
+    }
+
     public UserModel(String uid, String email, String nickname) {
         this.uid = uid;
         this.email = email;
@@ -20,7 +24,11 @@ public class UserModel {
     }
 
     public String getEmail() {
-        return email;
+        if (email == null){
+            return email;
+        }
+
+        return email.toLowerCase();
     }
 
     public void setEmail(String email) {
@@ -28,7 +36,11 @@ public class UserModel {
     }
 
     public String getNickname() {
-        return nickname;
+        if (nickname == null){
+            return nickname;
+        }
+
+        return nickname.toLowerCase();
     }
 
     public void setNickname(String nickname) {

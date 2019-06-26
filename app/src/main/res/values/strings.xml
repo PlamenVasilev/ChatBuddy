@@ -7,4 +7,8 @@
     <string name="confirm_logout">Are you sure that you want to logout?</string>
     <string name="confirm_logout_ok">Yes</string>
     <string name="confirm_logout_cancel">Cancel</string>
+    <string name="email">email</string>
+    <string name="search_enter_nickname">Please enter email</string>
+    <string name="hickname">hickname</string>
+    <string name="search_nickname_short">Please enter at least 3 characters</string>
 </resources>
