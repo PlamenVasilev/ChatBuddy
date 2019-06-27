@@ -19,10 +19,8 @@ import java.util.ArrayList;
 
 public class ChatSearchFragment extends Fragment {
 
-    private OnChatSearchFragmentListener mListener;
     private ChatSearchFragmentPresenter presenter;
     private FragmentChatSearchBinding binding;
-    private Object clickListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,30 +54,11 @@ public class ChatSearchFragment extends Fragment {
         });
     }
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnChatSearchFragmentListener) {
-//            mListener = (OnChatSearchFragmentListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString() + " must implement OnChatSearchFragmentListener");
-//        }
-//    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     void loadSearchData(ArrayList<UserModel> searchList) {
         ChatSearchAdapter adapter = new ChatSearchAdapter(searchList, clickListener());
 
         binding.searchRecycler.setAdapter(adapter);
-    }
-
-    public interface OnChatSearchFragmentListener {
-
     }
 
     private ChatSearchViewHolder.clickListener clickListener(){

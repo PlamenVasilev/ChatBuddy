@@ -2,10 +2,10 @@ package com.example.chatbuddy.ui.register;
 
 import androidx.annotation.NonNull;
 
+import com.example.chatbuddy.data.db.remote.FbCallback;
 import com.example.chatbuddy.data.db.remote.FbDatabase;
 import com.example.chatbuddy.data.db.remote.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,9 +34,10 @@ class RegisterFragmentPresenter {
                         if (task.isSuccessful()) {
                             final FirebaseUser authUser = mAuth.getCurrentUser();
                             UserModel userModel = new UserModel(Objects.requireNonNull(authUser).getUid(), authUser.getEmail(), nickname);
-                            FbDatabase.addUser(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                            FbDatabase.getInstance().addUser(userModel, new FbCallback.onUserCreated() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
+                                public void onComplete() {
                                     fragment.registerSuccessfull();
                                 }
                             });

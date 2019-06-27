@@ -1,24 +1,25 @@
 package com.example.chatbuddy.ui.chat.buddies;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatbuddy.R;
+import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.databinding.FragmentChatBuddiesBinding;
+
+import java.util.ArrayList;
 
 public class ChatBuddiesFragment extends Fragment {
 
-    private OnChatBuddiesFragmentListener mListener;
     private ChatBuddiesFragmentPresenter presenter;
     private FragmentChatBuddiesBinding binding;
 
@@ -32,26 +33,24 @@ public class ChatBuddiesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_buddies, container, false);
 
+        binding.buddiesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        presenter.loadBuddiesList();
         return binding.getRoot();
     }
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnChatBuddiesFragmentListener) {
-//            mListener = (OnChatBuddiesFragmentListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString() + " must implement OnChatBuddiesFragmentListener");
-//        }
-//    }
+    void loadBuddiesData(ArrayList<BuddyModel> buddyList) {
+        ChatBuddiesAdapter adapter = new ChatBuddiesAdapter(buddyList, clickListener());
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        binding.buddiesRecycler.setAdapter(adapter);
     }
 
-    public interface OnChatBuddiesFragmentListener {
+    private ChatBuddiesViewHolder.clickListener clickListener(){
+        return new ChatBuddiesViewHolder.clickListener() {
+            @Override
+            public void onChatBuddy(BuddyModel buddy) {
 
+            }
+        };
     }
 }

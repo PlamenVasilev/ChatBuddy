@@ -26,7 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-public class ChatFragment extends Fragment implements ChatListFragment.OnChatListFragmentListener, ChatBuddiesFragment.OnChatBuddiesFragmentListener, ChatSearchFragment.OnChatSearchFragmentListener {
+public class ChatFragment extends Fragment {
 
     private OnChatFragmentListener mListener;
     private FragmentChatBinding binding;
