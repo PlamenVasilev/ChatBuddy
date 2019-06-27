@@ -14,9 +14,11 @@ import java.util.ArrayList;
 
 public class ChatSearchAdapter extends RecyclerView.Adapter {
     private ArrayList<UserModel> list;
+    private ChatSearchViewHolder.clickListener clickListener;
 
-    ChatSearchAdapter(ArrayList<UserModel> searchList) {
+    ChatSearchAdapter(ArrayList<UserModel> searchList, ChatSearchViewHolder.clickListener clickListener) {
         this.list = searchList;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -24,7 +26,7 @@ public class ChatSearchAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_holder, viewGroup, false);
-        return new ChatSearchViewHolder(view);
+        return new ChatSearchViewHolder(view, clickListener);
     }
 
     @Override

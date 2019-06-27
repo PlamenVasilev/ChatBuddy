@@ -44,4 +44,8 @@ class ChatSearchFragmentPresenter {
             }
         });
     }
+
+    void addBuddy(UserModel user) {
+        FbDatabase.addBuddy(user);
+    }
 }

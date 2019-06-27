@@ -12,26 +12,32 @@ import com.example.chatbuddy.data.db.remote.model.UserModel;
 
 class ChatSearchViewHolder extends RecyclerView.ViewHolder {
 
-    TextView nickname;
-    TextView email;
-    Button add;
+    private TextView nickname;
+    private TextView email;
+    private Button add;
+    private clickListener listener;
 
-    ChatSearchViewHolder(@NonNull View itemView) {
+    ChatSearchViewHolder(@NonNull View itemView, final clickListener listener) {
         super(itemView);
 
         nickname = itemView.findViewById(R.id.holder_nickname);
         email = itemView.findViewById(R.id.holder_email);
         add = itemView.findViewById(R.id.holder_add);
+        this.listener = listener;
     }
 
-    void setItem(UserModel user) {
+    void setItem(final UserModel user) {
         nickname.setText(user.getNickname());
         email.setText(user.getEmail());
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO !!!!
+                listener.onAddBuddy(user);
             }
         });
+    }
+
+    public interface clickListener{
+        void onAddBuddy(UserModel user);
     }
 }

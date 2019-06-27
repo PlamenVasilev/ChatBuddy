@@ -22,6 +22,7 @@ public class ChatSearchFragment extends Fragment {
     private OnChatSearchFragmentListener mListener;
     private ChatSearchFragmentPresenter presenter;
     private FragmentChatSearchBinding binding;
+    private Object clickListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,12 +73,21 @@ public class ChatSearchFragment extends Fragment {
     }
 
     void loadSearchData(ArrayList<UserModel> searchList) {
-        ChatSearchAdapter adapter = new ChatSearchAdapter(searchList);
+        ChatSearchAdapter adapter = new ChatSearchAdapter(searchList, clickListener());
 
         binding.searchRecycler.setAdapter(adapter);
     }
 
     public interface OnChatSearchFragmentListener {
 
+    }
+
+    private ChatSearchViewHolder.clickListener clickListener(){
+        return new ChatSearchViewHolder.clickListener() {
+            @Override
+            public void onAddBuddy(UserModel user) {
+                presenter.addBuddy(user);
+            }
+        };
     }
 }
