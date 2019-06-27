@@ -20,10 +20,6 @@ class ChatFragmentPresenter {
         mAuth.signOut();
     }
 
-    void onChatsListClick() {
-        fragment.showChatsList(true);
-    }
-
     void onChatBuddiesClick() {
         fragment.showChatBuddies(true);
     }

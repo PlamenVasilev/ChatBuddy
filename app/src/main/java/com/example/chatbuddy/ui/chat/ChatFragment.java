@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.FragmentChatBinding;
 import com.example.chatbuddy.ui.chat.buddies.ChatBuddiesFragment;
-import com.example.chatbuddy.ui.chat.list.ChatListFragment;
 import com.example.chatbuddy.ui.chat.search.ChatSearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -45,7 +44,7 @@ public class ChatFragment extends Fragment {
 
         initToolbarListener();
         initBottomNavigationListener();
-        showChatsList(false);
+        showChatBuddies(false);
 
         return binding.getRoot();
     }
@@ -72,9 +71,6 @@ public class ChatFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.chats_list:
-                        presenter.onChatsListClick();
-                        break;
                     case R.id.chat_buddies:
                         presenter.onChatBuddiesClick();
                         break;
@@ -118,9 +114,6 @@ public class ChatFragment extends Fragment {
         transaction.commit();
     }
 
-    void showChatsList(boolean addToBackStack) {
-        openScreen(new ChatListFragment(), addToBackStack);
-    }
 
     void showChatBuddies(boolean addToBackStack) {
         openScreen(new ChatBuddiesFragment(), addToBackStack);
