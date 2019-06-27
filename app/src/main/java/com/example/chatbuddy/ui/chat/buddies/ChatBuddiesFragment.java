@@ -1,6 +1,7 @@
 package com.example.chatbuddy.ui.chat.buddies;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.databinding.FragmentChatBuddiesBinding;
+import com.example.chatbuddy.ui.chat.ChatFragment;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class ChatBuddiesFragment extends Fragment {
 
     private ChatBuddiesFragmentPresenter presenter;
     private FragmentChatBuddiesBinding binding;
+    private ChatFragment.OnChatFragmentListener mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,24 @@ public class ChatBuddiesFragment extends Fragment {
         return new ChatBuddiesViewHolder.clickListener() {
             @Override
             public void onChatBuddy(BuddyModel buddy) {
-
+                mListener.showTalkScreen();
             }
         };
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ChatFragment.OnChatFragmentListener) {
+            mListener = (ChatFragment.OnChatFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnChatFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

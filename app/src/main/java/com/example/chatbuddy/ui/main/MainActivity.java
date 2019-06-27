@@ -3,19 +3,24 @@ package com.example.chatbuddy.ui.main;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.databinding.ActivityMainBinding;
 import com.example.chatbuddy.ui.chat.ChatFragment;
+import com.example.chatbuddy.ui.chat.talk.TalkFragment;
 import com.example.chatbuddy.ui.login.LoginFragment;
 import com.example.chatbuddy.ui.register.RegisterFragment;
 import com.example.chatbuddy.ui.splash.SplashFragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener {
+import java.util.Objects;
+
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener, TalkFragment.OnTalkFragmentListener {
 
     private ActivityMainBinding binding;
     private MainActivityPresenter presenter;
@@ -36,10 +41,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void openScreen(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, fragment)
-                .commit();
+    private void openScreen(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, fragment);
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+
+        transaction.commit();
     }
 
     public void showLoader(){
@@ -51,32 +60,23 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
     }
 
     public void showSplashScreen() {
-        openScreen(new SplashFragment());
+        openScreen(new SplashFragment(), false);
     }
 
     public void showLoginScreen(){
-        openScreen(new LoginFragment());
+        openScreen(new LoginFragment(), false);
     }
 
     public void showRegisterScreen(){
-        openScreen(new RegisterFragment());
+        openScreen(new RegisterFragment(), false);
     }
 
     public void showChatScreen(){
-        openScreen(new ChatFragment());
+        openScreen(new ChatFragment(), false);
     }
 
-    public void showChatListFragment(){
-
+    public void showTalkScreen() {
+        openScreen(new TalkFragment(), true);
     }
-
-    public void showChatBuddiesFragment(){
-
-    }
-
-    public void showChatFragment(){
-
-    }
-
 
 }

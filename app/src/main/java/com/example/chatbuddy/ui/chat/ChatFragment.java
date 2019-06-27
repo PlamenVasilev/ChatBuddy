@@ -141,5 +141,6 @@ public class ChatFragment extends Fragment {
 
     public interface OnChatFragmentListener {
         void showLoginScreen();
+        void showTalkScreen();
     }
 }
