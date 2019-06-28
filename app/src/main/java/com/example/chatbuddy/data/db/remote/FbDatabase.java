@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.chatbuddy.data.db.remote.model.BuddyModel;
+import com.example.chatbuddy.data.db.remote.model.MessageModel;
 import com.example.chatbuddy.data.db.remote.model.UserModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class FbDatabase {
@@ -121,6 +123,46 @@ public class FbDatabase {
                 }
 
                 onBuddiesList.onComplete(buddyList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void sendMessage(final BuddyModel buddy, final MessageModel message) {
+        getUser(Objects.requireNonNull(currentUser).getUid(), new FbCallback.onUserGet(){
+            @Override
+            public void onSuccess(UserModel currentUser) {
+                // A->B
+                db.getReference(currentUser.getUid()+"/messages/"+buddy.getUid()).push().setValue(message);
+                // B->A
+                message.setDirection(MessageModel.DIR_IN);
+                db.getReference(buddy.getUid()+"/messages/"+currentUser.getUid()).push().setValue(message);
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+    }
+
+    public void getMessages(BuddyModel buddy, final FbCallback.onMessagesList onMessagesList) {
+        db.getReference(currentUser.getUid()+"/messages/"+buddy.getUid()).limitToLast(500).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<MessageModel> messagesList = new ArrayList<MessageModel>();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    MessageModel message = postSnapshot.getValue(MessageModel.class);
+                    messagesList.add(message);
+                }
+
+                Collections.reverse(messagesList);
+
+                onMessagesList.onComplete(messagesList);
             }
 
             @Override

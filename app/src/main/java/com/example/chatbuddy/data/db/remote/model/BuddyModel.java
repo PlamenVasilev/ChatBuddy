@@ -1,6 +1,8 @@
 package com.example.chatbuddy.data.db.remote.model;
 
-public class BuddyModel {
+import java.io.Serializable;
+
+public class BuddyModel implements Serializable {
     private String uid;
     private String nickname;
 

@@ -39,6 +39,7 @@ public class ChatBuddiesFragment extends Fragment {
         binding.buddiesRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         presenter.loadBuddiesList();
+
         return binding.getRoot();
     }
 
@@ -52,7 +53,7 @@ public class ChatBuddiesFragment extends Fragment {
         return new ChatBuddiesViewHolder.clickListener() {
             @Override
             public void onChatBuddy(BuddyModel buddy) {
-                mListener.showTalkScreen();
+                mListener.showTalkScreen(buddy);
             }
         };
     }

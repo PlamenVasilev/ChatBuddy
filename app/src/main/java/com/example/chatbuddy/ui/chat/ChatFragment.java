@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chatbuddy.R;
+import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.databinding.FragmentChatBinding;
 import com.example.chatbuddy.ui.chat.buddies.ChatBuddiesFragment;
 import com.example.chatbuddy.ui.chat.search.ChatSearchFragment;
@@ -141,6 +142,6 @@ public class ChatFragment extends Fragment {
 
     public interface OnChatFragmentListener {
         void showLoginScreen();
-        void showTalkScreen();
+        void showTalkScreen(BuddyModel buddy);
     }
 }

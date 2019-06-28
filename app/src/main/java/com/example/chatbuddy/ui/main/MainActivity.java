@@ -8,17 +8,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.chatbuddy.R;
+import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.databinding.ActivityMainBinding;
 import com.example.chatbuddy.ui.chat.ChatFragment;
 import com.example.chatbuddy.ui.chat.talk.TalkFragment;
 import com.example.chatbuddy.ui.login.LoginFragment;
 import com.example.chatbuddy.ui.register.RegisterFragment;
 import com.example.chatbuddy.ui.splash.SplashFragment;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener, TalkFragment.OnTalkFragmentListener {
 
@@ -75,8 +73,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         openScreen(new ChatFragment(), false);
     }
 
-    public void showTalkScreen() {
-        openScreen(new TalkFragment(), true);
+    public void showTalkScreen(BuddyModel buddy) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("buddy", buddy);
+
+        Fragment fragment = new TalkFragment();
+        fragment.setArguments(bundle);
+
+        openScreen(fragment, true);
     }
 
 }
