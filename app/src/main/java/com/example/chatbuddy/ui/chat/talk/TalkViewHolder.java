@@ -34,7 +34,7 @@ class TalkViewHolder extends RecyclerView.ViewHolder {
     void setItem(final MessageModel msg) {
         message.setText(msg.getMessage());
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("H:m dd.MM.YY");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("H:m dd.MM.yyyy");
         date.setText(formatter.format(msg.getCreated()));
 
         if(msg.getRead()){
