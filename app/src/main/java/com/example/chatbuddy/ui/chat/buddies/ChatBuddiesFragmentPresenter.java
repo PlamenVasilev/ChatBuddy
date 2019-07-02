@@ -15,9 +15,11 @@ class ChatBuddiesFragmentPresenter {
     }
 
     void loadBuddiesList() {
+        fragment.mListener.showLoader();
         FbDatabase.getInstance().getBuddiesList(new FbCallback.onBuddiesList() {
             @Override
             public void onComplete(ArrayList<BuddyModel> buddyList) {
+                fragment.mListener.hideLoader();
                 fragment.loadBuddiesData(buddyList);
             }
         });
