@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@drawable/sendbar_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="parent">
@@ -46,13 +47,15 @@
                 android:id="@+id/talk_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/talk_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send"/>
+                android:layout_marginEnd="8dp"
+                android:text="@string/send"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,4 +12,14 @@
     <string name="hickname">hickname</string>
     <string name="search_nickname_short">Please enter at least 3 characters</string>
     <string name="seen">Seen</string>
+    <string name="chat">Chat</string>
+    <string name="logo">logo</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="don_t_have_an_account_create_one">Don\'t have an account? Create one!</string>
+    <string name="nickname">Nickname</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="send">Send</string>
+    <string name="add_user">Add user</string>
 </resources>

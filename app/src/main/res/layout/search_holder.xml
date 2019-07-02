@@ -32,7 +32,7 @@
             android:id="@+id/holder_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add user"
+            android:text="@string/add_user"
             />
     </LinearLayout>
 
