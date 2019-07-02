@@ -30,4 +30,7 @@
     <string name="save">Save</string>
     <string name="select_photo">Select photo</string>
     <string name="avatar">avatar</string>
+    <string name="settings_saved">Settings saved!</string>
+    <string name="permissions_granted">Camera permissions granted</string>
+    <string name="permissions_denied">Camera permissions denied</string>
 </resources>

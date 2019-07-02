@@ -87,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void showSaveConfirmation() {
-        Snackbar.make(findViewById(android.R.id.content), "Settings saved!", Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.settings_saved), Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -97,12 +97,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Snackbar.make(findViewById(android.R.id.content), "Camera permissions granted", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.permissions_granted), Snackbar.LENGTH_LONG).show();
 
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             } else {
-                Snackbar.make(findViewById(android.R.id.content), "Camera permissions denied", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), getString(R.string.permissions_denied), Snackbar.LENGTH_LONG).show();
             }
         }
     }
@@ -112,7 +112,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Snackbar.make(findViewById(android.R.id.content), "camera image", Snackbar.LENGTH_LONG).show();
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             presenter.setImage(photo);
         }
