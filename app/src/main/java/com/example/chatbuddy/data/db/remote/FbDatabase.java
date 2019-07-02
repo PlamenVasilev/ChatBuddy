@@ -22,6 +22,9 @@ import java.util.Objects;
 
 public class FbDatabase {
     private static final String USERS = "users";
+    private static final String BUDDIES = "buddies";
+    private static final String MESSAGES = "messages";
+    private static final String FIELD_NICKNAME = "nickname";
     private static FbDatabase instance;
     private final FirebaseUser currentUser;
     private final FirebaseDatabase db;
@@ -36,6 +39,9 @@ public class FbDatabase {
     private FbDatabase() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseDatabase.getInstance();
+        db.setPersistenceEnabled(true);
+        db.getReference(USERS).keepSynced(true);
+        db.getReference(Objects.requireNonNull(currentUser).getUid()+"/"+MESSAGES).keepSynced(true);
     }
 
     public void addUser(final UserModel userModel, final FbCallback.onUserCreated onUserCreate) {
@@ -73,14 +79,14 @@ public class FbDatabase {
     public void searchUsersByNickname(String nickname, final FbCallback.onUserSearch onUserSearch) {
         DatabaseReference users = db.getReference(USERS);
 
-        users.orderByChild("nickname").startAt(nickname, "nickname"+ "\uf8ff").addValueEventListener(new ValueEventListener() {
+        users.orderByChild(FIELD_NICKNAME).equalTo(nickname, FIELD_NICKNAME).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<UserModel> searchList = new ArrayList<UserModel>();
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     UserModel user = postSnapshot.getValue(UserModel.class);
-                    if(!user.getUid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    if(!user.getUid().equals(currentUser.getUid())){
                         searchList.add(user);
                     }
                 }
@@ -100,9 +106,9 @@ public class FbDatabase {
             @Override
             public void onSuccess(UserModel currentUser) {
                 // A->B
-                db.getReference(currentUser.getUid()+"/buddies/"+user.getUid()).setValue(user.getNickname());
+                db.getReference(currentUser.getUid()+"/"+BUDDIES+"/"+user.getUid()).setValue(user.getNickname());
                 // B->A
-                db.getReference(user.getUid()+"/buddies/"+currentUser.getUid()).setValue(currentUser.getNickname());
+                db.getReference(user.getUid()+"/"+BUDDIES+"/"+currentUser.getUid()).setValue(currentUser.getNickname());
             }
 
             @Override
@@ -113,7 +119,7 @@ public class FbDatabase {
     }
 
     public void getBuddiesList(final FbCallback.onBuddiesList onBuddiesList){
-        db.getReference(currentUser.getUid()+"/buddies/").addValueEventListener(new ValueEventListener() {
+        db.getReference(currentUser.getUid()+"/"+BUDDIES+"/").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<BuddyModel> buddyList = new ArrayList<BuddyModel>();
@@ -137,10 +143,10 @@ public class FbDatabase {
             @Override
             public void onSuccess(UserModel currentUser) {
                 // A->B
-                db.getReference(currentUser.getUid()+"/messages/"+buddy.getUid()).push().setValue(message);
+                db.getReference(currentUser.getUid()+"/"+MESSAGES+"/"+buddy.getUid()).push().setValue(message);
                 // B->A
                 message.setDirection(MessageModel.DIR_IN);
-                db.getReference(buddy.getUid()+"/messages/"+currentUser.getUid()).push().setValue(message);
+                db.getReference(buddy.getUid()+"/"+MESSAGES+"/"+currentUser.getUid()).push().setValue(message);
             }
 
             @Override
@@ -151,7 +157,7 @@ public class FbDatabase {
     }
 
     public void getMessages(BuddyModel buddy, final FbCallback.onMessagesList onMessagesList) {
-        db.getReference(currentUser.getUid()+"/messages/"+buddy.getUid()).limitToLast(500).addValueEventListener(new ValueEventListener() {
+        db.getReference(currentUser.getUid()+"/"+MESSAGES+"/"+buddy.getUid()).limitToLast(500).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<MessageModel> messagesList = new ArrayList<MessageModel>();
