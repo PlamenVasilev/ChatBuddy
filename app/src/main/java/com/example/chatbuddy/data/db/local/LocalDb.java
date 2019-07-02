@@ -40,7 +40,7 @@ public class LocalDb {
             db.userSettingsDao().insertUserSettings(settings);
         }else{
             settings.setDarkMode(isChecked);
-            db.userSettingsDao().updateUserSettings(settings);
+            db.userSettingsDao().insertUserSettings(settings);
         }
 
     }
@@ -54,6 +54,6 @@ public class LocalDb {
     }
 
     public void updateUserSettings(UserSettings settings) {
-        db.userSettingsDao().updateUserSettings(settings);
+        db.userSettingsDao().insertUserSettings(settings);
     }
 }

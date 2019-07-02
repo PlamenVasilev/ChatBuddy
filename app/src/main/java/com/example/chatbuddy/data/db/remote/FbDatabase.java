@@ -196,6 +196,7 @@ public class FbDatabase {
 
     public void updateUserSettings(UserSettings settings) {
         currentUser.setNickname(settings.getNickname());
+        currentUser.setAvatar(settings.getAvatar());
         updateUser(currentUser);
     }
 

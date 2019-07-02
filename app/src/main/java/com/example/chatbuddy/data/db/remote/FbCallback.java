@@ -31,4 +31,9 @@ public interface FbCallback {
     interface onMessagesList{
         void onComplete(ArrayList<MessageModel> messages);
     }
+
+    interface onUploadCompleted{
+        void onComplete(String url);
+        void onError(Exception exception);
+    }
 }

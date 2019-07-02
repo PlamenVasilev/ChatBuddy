@@ -11,6 +11,7 @@ public class UserSettings {
     private String id;
     private String nickname;
     private Boolean darkMode;
+    private String avatar;
 
     public UserSettings(String id) {
         this.id = id;
@@ -38,5 +39,13 @@ public class UserSettings {
 
     public void setDarkMode(Boolean darkMode) {
         this.darkMode = darkMode;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

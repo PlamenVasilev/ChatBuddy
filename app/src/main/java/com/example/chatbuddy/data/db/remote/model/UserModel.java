@@ -4,6 +4,7 @@ public class UserModel {
     private String uid;
     private String email;
     private String nickname;
+    private String avatar;
 
     public UserModel() {
 
@@ -45,5 +46,13 @@ public class UserModel {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
