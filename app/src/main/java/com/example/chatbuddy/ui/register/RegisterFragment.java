@@ -82,14 +82,16 @@ public class RegisterFragment extends Fragment {
     }
 
     void showLoader(){
-        binding.loader.setVisibility(View.VISIBLE);
+        mListener.showLoader();
     }
 
     void hideLoader(){
-        binding.loader.setVisibility(View.GONE);
+        mListener.hideLoader();
     }
 
     public interface OnRegisterFragmentListener {
+        void showLoader();
+        void hideLoader();
         void showLoginScreen();
         void showChatScreen();
     }

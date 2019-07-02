@@ -106,7 +106,9 @@ public class ChatFragment extends Fragment {
     }
 
     private void openScreen(Fragment fragment, boolean addToBackStack) {
-        FragmentTransaction transaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction()
+        FragmentTransaction transaction = Objects.requireNonNull(getActivity())
+                .getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.chat_frame, fragment);
         if (addToBackStack) {
             transaction.addToBackStack(null);
@@ -141,6 +143,8 @@ public class ChatFragment extends Fragment {
     }
 
     public interface OnChatFragmentListener {
+        void showLoader();
+        void hideLoader();
         void showLoginScreen();
         void showTalkScreen(BuddyModel buddy);
     }

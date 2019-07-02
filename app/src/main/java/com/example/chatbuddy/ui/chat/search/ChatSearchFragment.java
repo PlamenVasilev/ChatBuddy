@@ -1,5 +1,6 @@
 package com.example.chatbuddy.ui.chat.search;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,15 @@ import android.view.ViewGroup;
 import com.example.chatbuddy.R;
 import com.example.chatbuddy.data.db.remote.model.UserModel;
 import com.example.chatbuddy.databinding.FragmentChatSearchBinding;
+import com.example.chatbuddy.ui.chat.ChatFragment;
 
 import java.util.ArrayList;
 
 public class ChatSearchFragment extends Fragment {
 
     private ChatSearchFragmentPresenter presenter;
-    private FragmentChatSearchBinding binding;
+    FragmentChatSearchBinding binding;
+    ChatFragment.OnChatFragmentListener mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,13 +46,7 @@ public class ChatSearchFragment extends Fragment {
         binding.searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(binding.searchNickname.getText().toString().isEmpty()){
-                    binding.searchNickname.setError(getResources().getString(R.string.search_enter_nickname));
-                }else if(binding.searchNickname.getText().toString().length()<3) {
-                    binding.searchNickname.setError(getResources().getString(R.string.search_nickname_short));
-                }else{
-                    presenter.searchByNickname(binding.searchNickname.getText().toString());
-                }
+                presenter.searchBuddy();
             }
         });
     }
@@ -68,5 +65,21 @@ public class ChatSearchFragment extends Fragment {
                 presenter.addBuddy(user);
             }
         };
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ChatFragment.OnChatFragmentListener) {
+            mListener = (ChatFragment.OnChatFragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnChatFragmentListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

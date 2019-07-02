@@ -22,4 +22,9 @@ class ChatBuddiesFragmentPresenter {
             }
         });
     }
+
+    void onBuddyClicked(BuddyModel buddy) {
+        fragment.mListener.showLoader();
+        fragment.mListener.showTalkScreen(buddy);
+    }
 }

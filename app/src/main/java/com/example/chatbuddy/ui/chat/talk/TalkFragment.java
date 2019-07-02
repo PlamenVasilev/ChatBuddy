@@ -17,15 +17,16 @@ import com.example.chatbuddy.R;
 import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.data.db.remote.model.MessageModel;
 import com.example.chatbuddy.databinding.FragmentTalkBinding;
+import com.example.chatbuddy.ui.chat.ChatFragment;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class TalkFragment extends Fragment {
 
-    private OnTalkFragmentListener mListener;
+    ChatFragment.OnChatFragmentListener mListener;
     private TalkFragmentPresenter presenter;
-    private FragmentTalkBinding binding;
+    FragmentTalkBinding binding;
     private BuddyModel buddy;
 
 
@@ -38,14 +39,12 @@ public class TalkFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        buddy = (BuddyModel) Objects.requireNonNull(getArguments()).getSerializable("buddy");
+        buddy = (BuddyModel) Objects.requireNonNull(getArguments()).getSerializable(BuddyModel.class.toString());
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_talk, container, false);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(binding.talkToolbar);
 
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        //linearLayoutManager.setReverseLayout(true);
         binding.talkRecycler.setLayoutManager(linearLayoutManager);
 
         setToolbar();
@@ -59,11 +58,7 @@ public class TalkFragment extends Fragment {
         binding.talkSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String msg = binding.talkText.getText().toString();
-                if(!msg.isEmpty() && msg.length() > 3){
-                    presenter.sendMessage(buddy, new MessageModel(msg));
-                    binding.talkText.setText(null);
-                }
+                presenter.sendMessage(buddy);
             }
         });
     }
@@ -82,10 +77,10 @@ public class TalkFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnTalkFragmentListener) {
-            mListener = (OnTalkFragmentListener) context;
+        if (context instanceof ChatFragment.OnChatFragmentListener) {
+            mListener = (ChatFragment.OnChatFragmentListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnTalkFragmentListener");
+            throw new RuntimeException(context.toString() + " must implement OnChatFragmentListener");
         }
     }
 
@@ -96,14 +91,9 @@ public class TalkFragment extends Fragment {
     }
 
     void showMessages(ArrayList<MessageModel> messages) {
-
         TalkAdapter adapter = new TalkAdapter(messages);
 
         binding.talkRecycler.setAdapter(adapter);
     }
 
-
-    public interface OnTalkFragmentListener {
-
-    }
 }

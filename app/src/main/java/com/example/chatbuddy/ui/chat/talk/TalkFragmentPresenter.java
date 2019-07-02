@@ -17,17 +17,29 @@ class TalkFragmentPresenter {
         this.fragment = fragment;
     }
 
-    void sendMessage(BuddyModel buddy, MessageModel message) {
+    private void send(BuddyModel buddy, String msg) {
+        fragment.mListener.showLoader();
+        MessageModel message = new MessageModel(msg);
         FbDatabase.getInstance().sendMessage(buddy, message);
+        fragment.mListener.hideLoader();
     }
 
     void loadMessages(BuddyModel buddy) {
-        Log.e(getClass().toString(), "load messages !!!!");
+        fragment.mListener.showLoader();
         FbDatabase.getInstance().getMessages(buddy, new FbCallback.onMessagesList() {
             @Override
             public void onComplete(ArrayList<MessageModel> messages) {
+                fragment.mListener.hideLoader();
                 fragment.showMessages(messages);
             }
         });
+    }
+
+    void sendMessage(BuddyModel buddy) {
+        String msg = fragment.binding.talkText.getText().toString();
+        if(!msg.isEmpty() && msg.length() >= 2){
+            send(buddy, msg);
+            fragment.binding.talkText.setText(null);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.chatbuddy.ui.chat.buddies;
 
-
 import android.content.Context;
 import android.os.Bundle;
 
@@ -24,7 +23,7 @@ public class ChatBuddiesFragment extends Fragment {
 
     private ChatBuddiesFragmentPresenter presenter;
     private FragmentChatBuddiesBinding binding;
-    private ChatFragment.OnChatFragmentListener mListener;
+    ChatFragment.OnChatFragmentListener mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class ChatBuddiesFragment extends Fragment {
         return new ChatBuddiesViewHolder.clickListener() {
             @Override
             public void onChatBuddy(BuddyModel buddy) {
-                mListener.showTalkScreen(buddy);
+                presenter.onBuddyClicked(buddy);
             }
         };
     }

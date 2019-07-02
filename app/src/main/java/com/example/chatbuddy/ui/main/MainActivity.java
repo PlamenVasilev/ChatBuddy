@@ -18,7 +18,7 @@ import com.example.chatbuddy.ui.login.LoginFragment;
 import com.example.chatbuddy.ui.register.RegisterFragment;
 import com.example.chatbuddy.ui.splash.SplashFragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener, TalkFragment.OnTalkFragmentListener {
+public class MainActivity extends AppCompatActivity implements LoginFragment.OnLoginFragmentListener, RegisterFragment.OnRegisterFragmentListener, ChatFragment.OnChatFragmentListener {
 
     private ActivityMainBinding binding;
     private MainActivityPresenter presenter;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
 
     public void showTalkScreen(BuddyModel buddy) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("buddy", buddy);
+        bundle.putSerializable(BuddyModel.class.toString(), buddy);
 
         Fragment fragment = new TalkFragment();
         fragment.setArguments(bundle);
