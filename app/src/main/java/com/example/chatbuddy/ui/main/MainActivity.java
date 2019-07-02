@@ -1,10 +1,15 @@
 package com.example.chatbuddy.ui.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
 
         presenter = new MainActivityPresenter(this);
         presenter.load();
+        checkOnline();
     }
 
     @Override
@@ -83,4 +89,25 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnL
         openScreen(fragment, true);
     }
 
+    public void showNoInternetDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.no_internet_text)
+                .setTitle(R.string.info)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+
+        builder.create().show();
+    }
+
+    public void checkOnline() {
+        ConnectivityManager conMgr = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+
+        if(netInfo == null || !netInfo.isConnected() || !netInfo.isAvailable()){
+            showNoInternetDialog();
+        }
+    }
 }

@@ -22,4 +22,7 @@
     <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="send">Send</string>
     <string name="add_user">Add user</string>
+    <string name="info">Info</string>
+    <string name="no_internet_text">Internet not available, Cross check your internet connectivity and try again</string>
+    <string name="ok">OK</string>
 </resources>
