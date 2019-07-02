@@ -59,7 +59,7 @@ public class ChatFragment extends Fragment {
                         presenter.onLogoutClicked();
                         break;
                     case R.id.settings:
-                        // todo .. what ?
+                        presenter.showSettings();
                         break;
                 }
                 return true;

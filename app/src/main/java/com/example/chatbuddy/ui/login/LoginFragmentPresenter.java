@@ -2,6 +2,7 @@ package com.example.chatbuddy.ui.login;
 
 import androidx.annotation.NonNull;
 
+import com.example.chatbuddy.data.db.remote.FbDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

@@ -11,6 +11,10 @@ public interface FbCallback {
         void onComplete();
     }
 
+    interface onUserUpdated {
+        void onComplete();
+    }
+
     interface onUserGet{
         void onSuccess(UserModel user);
         void onFailure();

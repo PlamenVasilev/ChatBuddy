@@ -1,9 +1,8 @@
 package com.example.chatbuddy.data.db.remote;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
+import com.example.chatbuddy.data.db.local.model.UserSettings;
 import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.data.db.remote.model.MessageModel;
 import com.example.chatbuddy.data.db.remote.model.UserModel;
@@ -26,8 +25,9 @@ public class FbDatabase {
     private static final String MESSAGES = "messages";
     private static final String FIELD_NICKNAME = "nickname";
     private static FbDatabase instance;
-    private final FirebaseUser currentUser;
+    private final FirebaseUser authUser;
     private final FirebaseDatabase db;
+    private UserModel currentUser;
 
     public static FbDatabase getInstance(){
         if(instance == null){
@@ -37,11 +37,23 @@ public class FbDatabase {
     }
 
     private FbDatabase() {
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        authUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseDatabase.getInstance();
         db.setPersistenceEnabled(true);
         db.getReference(USERS).keepSynced(true);
-        db.getReference(Objects.requireNonNull(currentUser).getUid()+"/"+MESSAGES).keepSynced(true);
+        db.getReference(Objects.requireNonNull(authUser).getUid()+"/"+MESSAGES).keepSynced(true);
+
+        getUser(authUser.getUid(), new FbCallback.onUserGet() {
+            @Override
+            public void onSuccess(UserModel user) {
+                currentUser = user;
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
     }
 
     public void addUser(final UserModel userModel, final FbCallback.onUserCreated onUserCreate) {
@@ -86,7 +98,7 @@ public class FbDatabase {
 
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     UserModel user = postSnapshot.getValue(UserModel.class);
-                    if(!user.getUid().equals(currentUser.getUid())){
+                    if(!user.getUid().equals(authUser.getUid())){
                         searchList.add(user);
                     }
                 }
@@ -102,7 +114,7 @@ public class FbDatabase {
     }
 
     public void addBuddy(final UserModel user) {
-        getUser(Objects.requireNonNull(currentUser).getUid(), new FbCallback.onUserGet(){
+        getUser(Objects.requireNonNull(authUser).getUid(), new FbCallback.onUserGet(){
             @Override
             public void onSuccess(UserModel currentUser) {
                 // A->B
@@ -119,7 +131,7 @@ public class FbDatabase {
     }
 
     public void getBuddiesList(final FbCallback.onBuddiesList onBuddiesList){
-        db.getReference(currentUser.getUid()+"/"+BUDDIES+"/").addValueEventListener(new ValueEventListener() {
+        db.getReference(authUser.getUid()+"/"+BUDDIES+"/").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<BuddyModel> buddyList = new ArrayList<BuddyModel>();
@@ -139,7 +151,7 @@ public class FbDatabase {
     }
 
     public void sendMessage(final BuddyModel buddy, final MessageModel message) {
-        getUser(Objects.requireNonNull(currentUser).getUid(), new FbCallback.onUserGet(){
+        getUser(Objects.requireNonNull(authUser).getUid(), new FbCallback.onUserGet(){
             @Override
             public void onSuccess(UserModel currentUser) {
                 // A->B
@@ -157,7 +169,7 @@ public class FbDatabase {
     }
 
     public void getMessages(BuddyModel buddy, final FbCallback.onMessagesList onMessagesList) {
-        db.getReference(currentUser.getUid()+"/"+MESSAGES+"/"+buddy.getUid()).limitToLast(500).addValueEventListener(new ValueEventListener() {
+        db.getReference(authUser.getUid()+"/"+MESSAGES+"/"+buddy.getUid()).limitToLast(500).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<MessageModel> messagesList = new ArrayList<MessageModel>();
@@ -176,5 +188,18 @@ public class FbDatabase {
 
             }
         });
+    }
+
+    public UserModel getCurrentUser() {
+        return currentUser;
+    }
+
+    public void updateUserSettings(UserSettings settings) {
+        currentUser.setNickname(settings.getNickname());
+        updateUser(currentUser);
+    }
+
+    private void updateUser(final UserModel userModel) {
+        db.getReference(USERS).child(userModel.getUid()).setValue(userModel);
     }
 }
