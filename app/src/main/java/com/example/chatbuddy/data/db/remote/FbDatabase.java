@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,10 +37,18 @@ public class FbDatabase {
         return instance;
     }
 
+    public static void signOut() {
+        instance = null;
+    }
+
+    public static void init() {
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG);
+    }
+
     private FbDatabase() {
         authUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseDatabase.getInstance();
-        db.setPersistenceEnabled(true);
         db.getReference(USERS).keepSynced(true);
         db.getReference(Objects.requireNonNull(authUser).getUid()+"/"+MESSAGES).keepSynced(true);
 
@@ -91,7 +100,8 @@ public class FbDatabase {
     public void searchUsersByNickname(String nickname, final FbCallback.onUserSearch onUserSearch) {
         DatabaseReference users = db.getReference(USERS);
 
-        users.orderByChild(FIELD_NICKNAME).equalTo(nickname, FIELD_NICKNAME).addValueEventListener(new ValueEventListener() {
+        users.orderByChild(FIELD_NICKNAME).startAt(nickname).endAt(nickname+ "\uf8ff").addValueEventListener(new ValueEventListener() {
+        //users.orderByChild(FIELD_NICKNAME).equalTo(nickname).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<UserModel> searchList = new ArrayList<UserModel>();

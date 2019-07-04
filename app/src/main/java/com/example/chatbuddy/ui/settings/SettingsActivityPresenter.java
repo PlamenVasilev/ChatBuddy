@@ -1,7 +1,6 @@
 package com.example.chatbuddy.ui.settings;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 
 import com.example.chatbuddy.data.db.local.LocalDb;
 import com.example.chatbuddy.data.db.local.model.UserSettings;

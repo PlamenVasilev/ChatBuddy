@@ -21,6 +21,10 @@ public class LocalDb {
         return instance;
     }
 
+    public static void signOut() {
+        instance = null;
+    }
+
     private LocalDb(Context context){
         db = Room.databaseBuilder(context, AppDatabase.class, "settings.sqlite")
                 .allowMainThreadQueries()
@@ -50,10 +54,6 @@ public class LocalDb {
     }
 
     public void insertUserSettings(UserSettings settings) {
-        db.userSettingsDao().insertUserSettings(settings);
-    }
-
-    public void updateUserSettings(UserSettings settings) {
         db.userSettingsDao().insertUserSettings(settings);
     }
 }

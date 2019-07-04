@@ -15,8 +15,8 @@ class ChatSearchFragmentPresenter {
         this.fragment = fragment;
     }
 
-    private void searchByNickname(String email) {
-        FbDatabase.getInstance().searchUsersByNickname(email, new FbCallback.onUserSearch() {
+    private void searchByNickname(String nickname) {
+        FbDatabase.getInstance().searchUsersByNickname(nickname, new FbCallback.onUserSearch() {
             @Override
             public void onComplete(ArrayList<UserModel> searchList) {
                 fragment.mListener.hideLoader();
@@ -33,7 +33,7 @@ class ChatSearchFragmentPresenter {
         String searchName = fragment.binding.searchNickname.getText().toString();
         if(searchName.isEmpty()){
             fragment.binding.searchNickname.setError(fragment.getResources().getString(R.string.search_enter_nickname));
-        }else if(searchName.length()<=3) {
+        }else if(searchName.length()<3) {
             fragment.binding.searchNickname.setError(fragment.getResources().getString(R.string.search_nickname_short));
         }else{
             fragment.mListener.showLoader();

@@ -93,6 +93,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/settings_toolbar"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:indeterminateTint="@color/colorPrimary"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

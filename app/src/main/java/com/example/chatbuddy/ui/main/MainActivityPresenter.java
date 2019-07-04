@@ -1,5 +1,6 @@
 package com.example.chatbuddy.ui.main;
 
+import com.example.chatbuddy.data.db.remote.FbDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -19,6 +20,7 @@ class MainActivityPresenter {
     void load() {
         activity.showSplashScreen();
 
+        FbDatabase.init();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
 
         // Splash timeout

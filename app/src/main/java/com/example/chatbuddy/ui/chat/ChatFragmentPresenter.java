@@ -2,7 +2,9 @@ package com.example.chatbuddy.ui.chat;
 
 import android.content.Intent;
 
+import com.example.chatbuddy.data.db.local.LocalDb;
 import com.example.chatbuddy.data.db.local.model.UserSettings;
+import com.example.chatbuddy.data.db.remote.FbDatabase;
 import com.example.chatbuddy.ui.settings.SettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,6 +24,8 @@ class ChatFragmentPresenter {
 
     void logout() {
         mAuth.signOut();
+        FbDatabase.signOut();
+        LocalDb.signOut();
     }
 
     void onChatBuddiesClick() {
