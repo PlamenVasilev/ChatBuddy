@@ -30,10 +30,6 @@ class SettingsActivityPresenter {
         this.uid = activity.getIntent().getStringExtra(UserSettings.class.toString());
     }
 
-    void onThemeChanged(boolean isChecked) {
-        db.setThemeMode(uid, isChecked);
-    }
-
     void setValues() {
         UserSettings settings = db.getUserSettings(uid);
         if (settings != null) {
@@ -43,7 +39,9 @@ class SettingsActivityPresenter {
                 Picasso.get().load(settings.getAvatar()).into(activity.binding.avatar);
             }
         } else {
-            activity.binding.nickname.setText(FbDatabase.getInstance().getCurrentUser().getNickname());
+            if(FbDatabase.getInstance().getCurrentUser() != null){
+                activity.binding.nickname.setText(FbDatabase.getInstance().getCurrentUser().getNickname());
+            }
         }
 
     }

@@ -29,8 +29,6 @@ class RegisterFragmentPresenter {
                 .addOnCompleteListener(Objects.requireNonNull(fragment.getActivity()), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        fragment.hideLoader();
-
                         if (task.isSuccessful()) {
                             final FirebaseUser authUser = mAuth.getCurrentUser();
                             UserModel userModel = new UserModel(Objects.requireNonNull(authUser).getUid(), authUser.getEmail(), nickname);
@@ -38,6 +36,7 @@ class RegisterFragmentPresenter {
                             FbDatabase.getInstance().addUser(userModel, new FbCallback.onUserCreated() {
                                 @Override
                                 public void onComplete() {
+                                    fragment.hideLoader();
                                     fragment.registerSuccessfull();
                                 }
                             });
