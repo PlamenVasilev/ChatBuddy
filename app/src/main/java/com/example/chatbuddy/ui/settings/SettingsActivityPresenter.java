@@ -39,9 +39,7 @@ class SettingsActivityPresenter {
                 Picasso.get().load(settings.getAvatar()).into(activity.binding.avatar);
             }
         } else {
-            if(FbDatabase.getInstance().getCurrentUser() != null){
-                activity.binding.nickname.setText(FbDatabase.getInstance().getCurrentUser().getNickname());
-            }
+            activity.binding.nickname.setText(FbDatabase.getInstance().getCurrentUser().getNickname());
         }
 
     }
