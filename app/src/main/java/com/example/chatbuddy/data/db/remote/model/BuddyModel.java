@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class BuddyModel implements Serializable {
     private String uid;
     private String nickname;
+    private String avatar;
 
     public BuddyModel() {
     }
@@ -28,5 +29,13 @@ public class BuddyModel implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

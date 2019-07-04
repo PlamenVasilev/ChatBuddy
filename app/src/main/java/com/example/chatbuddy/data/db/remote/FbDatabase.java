@@ -77,7 +77,7 @@ public class FbDatabase {
         });
     }
 
-    private void getUser(String uid, final FbCallback.onUserGet onUserGet) {
+    public void getUser(String uid, final FbCallback.onUserGet onUserGet) {
         DatabaseReference users = db.getReference().child(USERS);
 
         users.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {

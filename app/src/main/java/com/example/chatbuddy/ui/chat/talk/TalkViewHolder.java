@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatbuddy.R;
+import com.example.chatbuddy.data.db.remote.FbDatabase;
 import com.example.chatbuddy.data.db.remote.model.BuddyModel;
 import com.example.chatbuddy.data.db.remote.model.MessageModel;
+import com.example.chatbuddy.data.db.remote.model.UserModel;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
@@ -31,8 +34,17 @@ class TalkViewHolder extends RecyclerView.ViewHolder {
         seen = itemView.findViewById(R.id.message_seen);
     }
 
-    void setItem(final MessageModel msg) {
+    void setItem(final MessageModel msg, BuddyModel buddy) {
         message.setText(msg.getMessage());
+
+        UserModel user = FbDatabase.getInstance().getCurrentUser();
+        if (msg.isOutMessage() && user.getAvatar() != null && !user.getAvatar().isEmpty()){
+            Picasso.get().load(user.getAvatar()).into(avatar);
+        }
+
+        if(!msg.isOutMessage() && buddy.getAvatar() != null && !buddy.getAvatar().isEmpty()){
+            Picasso.get().load(buddy.getAvatar()).into(avatar);
+        }
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("H:m dd.MM.yyyy");
         date.setText(formatter.format(msg.getCreated()));

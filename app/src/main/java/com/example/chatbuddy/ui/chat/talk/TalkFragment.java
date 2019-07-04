@@ -91,7 +91,7 @@ public class TalkFragment extends Fragment {
     }
 
     void showMessages(ArrayList<MessageModel> messages) {
-        TalkAdapter adapter = new TalkAdapter(messages);
+        TalkAdapter adapter = new TalkAdapter(messages, buddy);
 
         binding.talkRecycler.setAdapter(adapter);
     }

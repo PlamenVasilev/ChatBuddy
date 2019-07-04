@@ -29,7 +29,9 @@ class TalkFragmentPresenter {
         FbDatabase.getInstance().getMessages(buddy, new FbCallback.onMessagesList() {
             @Override
             public void onComplete(ArrayList<MessageModel> messages) {
-                fragment.mListener.hideLoader();
+                if(fragment.mListener != null){
+                    fragment.mListener.hideLoader();
+                }
                 fragment.showMessages(messages);
             }
         });
