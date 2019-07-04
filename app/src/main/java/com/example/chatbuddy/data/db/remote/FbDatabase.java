@@ -42,8 +42,9 @@ public class FbDatabase {
     }
 
     public static void init() {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG);
+        // dual screen crash
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG);
     }
 
     private FbDatabase() {
